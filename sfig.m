@@ -1,9 +1,11 @@
-function sfig(name)
+function sfig(name, save_only, path)
 
 smallfig=false;
 
 f=gcf; 
 f.Units = 'pixels';
+
+if nargin==1, save_only=0; end
 
 %%
 if smallfig
@@ -16,7 +18,7 @@ if smallfig
 else
 
     % for papers/presentations
-    set(findall(gcf,'-property','FontSize'),'FontSize',17)
+%     set(findall(gcf,'-property','FontSize'),'FontSize',17)
 
     % for posters
 %     set(findall(gcf,'-property','FontSize'),'FontSize',19)  % 20 for larger figures  
@@ -25,7 +27,8 @@ else
 
 %     set(f, 'Position', [100, 100, 900, 650]); 
 %     set(f, 'Position', [100, 100, 1200, 650]); 
-%     set(f, 'Position', [100, 100, 1200, 350]); 
+
+%     set(f, 'Position', [100, 100, 900, 490]); 
     
     %% PACES Poster/EGU 2018 poster
 %     set(f, 'Position', [100, 100, 900, 750]); % for 4 subplot fig
@@ -54,11 +57,15 @@ else
 
     %% other
 %     set(f, 'Position', [100, 100, 600, 500]); % pandora WS corr plots
-    set(f, 'Position', [100, 100, 1000, 450]); % pandora WS timeseries plots
+%     set(f, 'Position', [100, 100, 1000, 450]); % pandora WS timeseries plots
     
 end
 
 box on
+
+path='/home/kristof/work/documents/conferences/invited_york/'; 
+
+save_png(name,path);
 
 %% settings for masters report (for smallfig=false)
 % width=1000
@@ -69,11 +76,16 @@ box on
 %%
 
 %% png images
-figpos=getpixelposition(f); 
-resolution=get(0,'ScreenPixelsPerInch'); 
-set(f,'paperunits','inches','papersize',figpos(3:4)/resolution,'paperposition',[0 0 figpos(3:4)/resolution]); 
-path='/home/kristof/work/documents/conferences/Pandora_workshop_2019/'; 
-print(f,fullfile(path,name),'-dpng','-r300','-opengl') %save file
-% print(f,fullfile(path,name),'-djpeg','-r300','-opengl') %save file
+
+end
+
+function save_png(name,path)
+
+    figpos=getpixelposition(f); 
+    resolution=get(0,'ScreenPixelsPerInch'); 
+    set(f,'paperunits','inches','papersize',figpos(3:4)/resolution,'paperposition',[0 0 figpos(3:4)/resolution]); 
+    print(f,fullfile(path,name),'-dpng','-r300','-opengl') %save file
+    % print(f,fullfile(path,name),'-djpeg','-r300','-opengl') %save file
+    
 
 end

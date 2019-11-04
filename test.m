@@ -1,20 +1,74 @@
-x = [1,2,3,4,5,1,2,3,4,6];
-group = [1,1,2,2,2,3,3,3,4,4];
-positions = [1 1.25 2 2.25];
-boxplot(x,group, 'positions', positions);
+%% GBS yearly plots for campaign meeting
+% % load('/home/kristof/work/GBS/VCD_results/NDACC_RD/UT-GBS_O3_VCD_2019all.mat')
+% % try 
+% %     gscatter(mjd2k_to_date(reanalysis.mjd2k),reanalysis.mean_vcd,reanalysis.ampm,'br','..')
+% % end
+% 
+% try 
+%     load('/home/kristof/work/GBS/VCD_results/NDACC_RD/UT-GBS_NO2_VCD_2019all.mat')    
+%     gscatter(mjd2k_to_date(reanalysis.mjd2k),reanalysis.mean_vcd,reanalysis.ampm,'br','..')
+% end
+% try
+%     hold on
+%     load('/home/kristof/work/GBS/VCD_results/NDACC_RD/PEARL-GBS_NO2_UV_VCD_2019all.mat')   
+%     gscatter(mjd2k_to_date(reanalysis.mjd2k),reanalysis.mean_vcd,reanalysis.ampm,'br','oo')
+% end
+% 
+% grid on
+% xlim([datenum(2019,2,15),datenum(2019,10,15)])
+% xlabel('Date, 2019 (UTC)')
+% % ylabel('Ozone VCD (molec/cm^2)')
+% % legend('UT-GBS am','UT-GBS pm')
+% ylabel('NO_2 VCD (molec/cm^2)')
+% legend('UT-GBS am','UT-GBS pm','PEARL-GBS am','PEARL-GBS pm')
+% 
+% set(findall(gcf,'-property','FontSize'),'FontSize',15)
+% set(findall(gcf,'-property','FontName'),'FontName','Arial') 
+% set(gcf, 'Position', [100, 100, 1100, 650]);
 
-set(gca,'xtick',[mean(positions(1:2)) mean(positions(3:4)) ])
-set(gca,'xticklabel',{'Direct care','Housekeeping'})
+%% add time info to sea ice contact files
+% 
+% area={'FYSI','MYSI','water'};
+% 
+% for i=1:length(area)
+%     for j=1:5
+%     
+%         fname=['FP_' area{i} '_contact_' num2str(j) 'day.mat'];
+%         
+%         load(fname);
+%         
+%         tmp=table();
+% 
+%         tmp.run_times=run_times';
+%         tmp.run_start=run_start';
+%         tmp.run_end=run_end';
+%         tmp.contact=FP_SI_contact;
+% 
+%         FP_SI_contact=tmp;
+%         
+%         save(fname,'FP_SI_contact')
+%         
+%     end
+% end
 
-color = ['c', 'y', 'c', 'y'];
-h = findobj(gca,'Tag','Box');
-for j=1:length(h)
-   patch(get(h(j),'XData'),get(h(j),'YData'),color(j),'FaceAlpha',.5);
-end
-
-c = get(gca, 'Children');
-
-hleg1 = legend(c(1:2), 'Feature1', 'Feature2' );
+%% test box plot
+% x = [1,2,3,4,5,1,2,3,4,6];
+% group = [1,1,2,2,2,3,3,3,4,4];
+% positions = [1 1.25 2 2.25];
+% boxplot(x,group, 'positions', positions);
+% 
+% set(gca,'xtick',[mean(positions(1:2)) mean(positions(3:4)) ])
+% set(gca,'xticklabel',{'Direct care','Housekeeping'})
+% 
+% color = ['c', 'y', 'c', 'y'];
+% h = findobj(gca,'Tag','Box');
+% for j=1:length(h)
+%    patch(get(h(j),'XData'),get(h(j),'YData'),color(j),'FaceAlpha',.5);
+% end
+% 
+% c = get(gca, 'Children');
+% 
+% hleg1 = legend(c(1:2), 'Feature1', 'Feature2' );
 
 %% pandora ozone and NO2 timeseries
 % load('/home/kristof/work/documents/conferences/Pandora_workshop_2019/data/all_2019.mat')
@@ -64,6 +118,7 @@ hleg1 = legend(c(1:2), 'Feature1', 'Feature2' );
 
 %% SI contactfor FLEXPART back trajectories
 % for age=[1,2,0,20]
+% for age=[20]
 %     age
 %     for bt_len=1:5
 %         bt_len
