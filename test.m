@@ -1,3 +1,20 @@
+%% BEE stats
+% % load('/home/kristof/work/BEEs/BEE_dataset_all.mat')
+% % bee_dataset(bee_dataset.times.Year==2015,:)=[];
+% 
+% % % percentage of each wdir
+% % disp((sum(bee_dataset.N_SE_rest==1)/10150)*100)
+% % disp((sum(bee_dataset.N_SE_rest==2)/10150)*100)
+% % disp((sum(bee_dataset.N_SE_rest==3)/10150)*100)
+% % disp((sum(isnan(bee_dataset.N_SE_rest))/10150)*100)
+% 
+% % percentage of each wdir, for BrO above median
+% tmp=prctile(bee_dataset.bro_col,75);
+% disp((sum(bee_dataset.N_SE_rest==1 & bee_dataset.bro_col>tmp)/10150)*100)
+% disp((sum(bee_dataset.N_SE_rest==2 & bee_dataset.bro_col>tmp)/10150)*100)
+% disp((sum(bee_dataset.N_SE_rest==3 & bee_dataset.bro_col>tmp)/10150)*100)
+% disp((sum(isnan(bee_dataset.N_SE_rest) & bee_dataset.bro_col>tmp)/10150)*100)
+
 %% GBS yearly plots for campaign meeting
 % % load('/home/kristof/work/GBS/VCD_results/NDACC_RD/UT-GBS_O3_VCD_2019all.mat')
 % % try 
@@ -26,9 +43,9 @@
 % set(findall(gcf,'-property','FontName'),'FontName','Arial') 
 % set(gcf, 'Position', [100, 100, 1100, 650]);
 
-%% add time info to sea ice contact files
-% 
-% area={'FYSI','MYSI','water'};
+%% add time info to sea ice contact files, or modify contact time
+
+% area={'FYSI','MYSI','water','land'};
 % 
 % for i=1:length(area)
 %     for j=1:5
@@ -37,14 +54,16 @@
 %         
 %         load(fname);
 %         
-%         tmp=table();
-% 
-%         tmp.run_times=run_times';
-%         tmp.run_start=run_start';
-%         tmp.run_end=run_end';
-%         tmp.contact=FP_SI_contact;
-% 
-%         FP_SI_contact=tmp;
+% %         tmp=table();
+% % 
+% %         tmp.run_times=run_times';
+% %         tmp.run_start=run_start';
+% %         tmp.run_end=run_end';
+% %         tmp.contact=FP_SI_contact;
+% % 
+% %         FP_SI_contact=tmp;
+%         
+%         FP_SI_contact.contact=FP_SI_contact.contact/12534^2;
 %         
 %         save(fname,'FP_SI_contact')
 %         
