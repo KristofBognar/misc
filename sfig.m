@@ -63,9 +63,9 @@ end
 
 box on
 
-path='/home/kristof/work/documents/conferences/invited_york/'; 
+path='/home/kristof/work/documents/'; 
 
-save_png(name,path);
+save_png(name,path,f);
 
 %% settings for masters report (for smallfig=false)
 % width=1000
@@ -79,13 +79,13 @@ save_png(name,path);
 
 end
 
-function save_png(name,path)
+function save_png(name,path,f)
 
     figpos=getpixelposition(f); 
     resolution=get(0,'ScreenPixelsPerInch'); 
     set(f,'paperunits','inches','papersize',figpos(3:4)/resolution,'paperposition',[0 0 figpos(3:4)/resolution]); 
-    print(f,fullfile(path,name),'-dpng','-r300','-opengl') %save file
-    % print(f,fullfile(path,name),'-djpeg','-r300','-opengl') %save file
+    print(f,fullfile(path,name),'-dpng','-r200','-opengl') %save file
+%     print(f,fullfile(path,name),'-djpeg','-r300','-opengl') %save file
     
 
 end

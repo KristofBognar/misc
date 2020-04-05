@@ -136,14 +136,14 @@
 %        'location','southeast')
 
 %% SI contactfor FLEXPART back trajectories
-% for age=[1,2,0,20]
-% for age=[20]
-%     age
-%     for bt_len=1:5
-%         bt_len
-%         get_SI_contact(bt_len,age)
-%     end
-% end
+% % for age=[1,2,0,20]
+for age=[1,2]
+    age
+    for bt_len=[1,2]
+        bt_len
+        get_SI_contact(bt_len,age)
+    end
+end
 
 %% check if FLEXPART to EASE grid mapping works
 % load('/home/kristof/work/BEEs/sea_ice_data/EASE_grid_SI_age.mat')
