@@ -1,3 +1,38 @@
+%% compare pandora dSCDs
+[fd,inda,indb]=intersect(data.Fractionalday,new.Fractionalday);
+
+comp1=data.NO2_VisSlColno2(inda);
+comp2=new.NO2_VisSlColno2(indb);
+
+rms1=data.NO2_VisRMS(inda);
+rms2=new.NO2_VisRMS(indb);
+elevs=data.Elevviewingangle(inda);
+
+rel_diff=((comp2./comp1)-1)*100;
+
+mm=[];
+sig=[];
+eas=[1,2,3,5,8,10,15,20,30,40,50];
+for i=eas
+   
+    ind=(abs(rel_diff)<100 & (rms1<0.003 & rms2<0.003) & elevs==i);
+    mm=[mm,mean(rel_diff(ind))]; 
+    sig=[sig,std(rel_diff(ind))];
+
+end
+
+ind=(abs(rel_diff)<100 & (rms1<0.003 & rms2<0.003));
+disp([mean(rel_diff(ind)), std(rel_diff(ind))])
+
+plot(eas,mm,'kx-'), hold on
+plot(eas,mm+sig,'kx--')
+plot(eas,mm-sig,'kx--')
+grid on
+xlabel('Elevation angle')
+ylabel('Relative difference (%)')
+legend('mean','std','location','northwest')
+% plot(fd(ind),rel_diff(ind),'kx')
+
 %% BEE stats
 % % load('/home/kristof/work/BEEs/BEE_dataset_all.mat')
 % % bee_dataset(bee_dataset.times.Year==2015,:)=[];
@@ -137,13 +172,13 @@
 
 %% SI contactfor FLEXPART back trajectories
 % % for age=[1,2,0,20]
-for age=[1,2]
-    age
-    for bt_len=[1,2]
-        bt_len
-        get_SI_contact(bt_len,age)
-    end
-end
+% for age=[1,2]
+%     age
+%     for bt_len=[1,2]
+%         bt_len
+%         get_SI_contact(bt_len,age)
+%     end
+% end
 
 %% check if FLEXPART to EASE grid mapping works
 % load('/home/kristof/work/BEEs/sea_ice_data/EASE_grid_SI_age.mat')
