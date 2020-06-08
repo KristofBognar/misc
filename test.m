@@ -1,37 +1,106 @@
+%% compare Ramina's QDOAS output to mine
+% ind1=(data.O3RMS<0.003 & data.SZA<92 & data.SZA>86);
+% ind2=(data_mine.O3RMS<0.003 & data_mine.SZA<92 & data_mine.SZA>86);
+% plot(data.Fractionalday(ind1),data.O3SlColo3(ind1),'ko'), hold on
+% plot(data_mine.Fractionalday(ind2),data_mine.O3SlColo3(ind2),'rx'), hold on
+% 
+% [~, inda,indb]=intersect(data.Fractionalday,data_mine.Fractionalday);
+% d1=data(inda,:);
+% d2=data_mine(indb,:);
+% ind=(d1.O3RMS<0.003 & d1.SZA<92 & d1.SZA>86 & d2.O3RMS<0.003 & d2.SZA<92 & d2.SZA>86);
+% % ind=(d1.O3RMS<0.003 & d2.O3RMS<0.003);
+% 
+% figure
+% % plot(d1.Fractionalday(ind),d1.O3SlColo3(ind),'ko'), hold on
+% % plot(d2.Fractionalday(ind),d2.O3SlColo3(ind),'rx'), hold on
+% plot(d1.Fractionalday(ind),((d1.O3SlColo3(ind)-d2.O3SlColo3(ind))./d1.O3SlColo3(ind))*100,'kx')
+
+%% break up 2019-2020 berwer data (from Xiaoyi)
+% for bw_num=unique(o3data_ews.serial)'
+%     ind=o3data_ews.serial==bw_num;
+%     tmp=table();
+%     tmp.DateTime=o3data_ews.GMTDate(ind);
+%     tmp.ColumnO3=o3data_ews.o3(ind);
+%     tmp.StdDevO3=o3data_ews.err_o3(ind);
+%     tmp.Airmass=o3data_ews.mu(ind);
+%     tmp.ZA=o3data_ews.za(ind);
+%     
+%     brewer=tmp;
+%     tmp=unique(tmp.DateTime.Year);
+%     if length(tmp)==1
+%         save(['brewer' num2str(bw_num) '_' num2str(tmp) '.mat'],'brewer')
+%     else
+%         save(['brewer' num2str(bw_num) '_' num2str(tmp(1)) '-' num2str(tmp(2)) '.mat'],'brewer')
+%     end
+% end
+% ind=(brewer_69.Datetime.Year==2020 & brewer_69.Airmass<5 & brewer_69.StdDevO3<2.5);
+% plot(brewer_69.Datetime(ind),brewer_69.ColumnO3(ind),'x'), hold on
+% ind=(brewer_192.Datetime.Year==2020 & brewer_192.Airmass<5 & brewer_192.StdDevO3<2.5);
+% plot(brewer_192.Datetime(ind),brewer_192.ColumnO3(ind),'x'), hold on
+% ind=(brewer_223.Datetime.Year==2020 & brewer_223.Airmass<5 & brewer_223.StdDevO3<2.5);
+% plot(brewer_223.Datetime(ind),brewer_223.ColumnO3(ind),'x'), hold on
+%     
+% legend('69','192','223')
+
+%% bruker tg errors
+% valid_tg={'O3','NO2','HCl','HNO3','ClONO2','HF'};
+% for i=valid_tg
+%     load(['/home/kristof/work/bruker/PEARL_ozone_depletion/bruker_' lower(i{1}) '.mat'])
+%     err_sys=bruker.tot_col_err_sys./bruker.tot_col;
+%     err_rand=bruker.tot_col_err_rand./bruker.tot_col;
+%     err_tot=mean(sqrt(err_sys.^2 + err_rand.^2)*100);
+%     disp([i{1} ': ' num2str(round(err_tot,1)) '%'])
+% end
+%% plot pandora RMS
+% rms_lim=0.003;
+% for ea=[1,2,3,5,8,10,15,20,30,40,50]
+%     
+%     ind=data.Elevviewingangle==ea;
+%     figure
+%     dscatter(data.SZA(ind),data.NO2_VisRMS(ind))
+%     title(['elev: ' num2str(ea) ' deg'])
+%     ylim([0,0.008])
+%     grid on
+%     
+%     tmp=sum(data.NO2_VisRMS(ind)>rms_lim)/sum(ind);
+%     disp(['Filtered ' num2str(tmp*100) '% at ea = ' num2str(ea)])
+%     
+% end
+
 %% compare pandora dSCDs
-[fd,inda,indb]=intersect(data.Fractionalday,new.Fractionalday);
-
-comp1=data.NO2_VisSlColno2(inda);
-comp2=new.NO2_VisSlColno2(indb);
-
-rms1=data.NO2_VisRMS(inda);
-rms2=new.NO2_VisRMS(indb);
-elevs=data.Elevviewingangle(inda);
-
-rel_diff=((comp2./comp1)-1)*100;
-
-mm=[];
-sig=[];
-eas=[1,2,3,5,8,10,15,20,30,40,50];
-for i=eas
-   
-    ind=(abs(rel_diff)<100 & (rms1<0.003 & rms2<0.003) & elevs==i);
-    mm=[mm,mean(rel_diff(ind))]; 
-    sig=[sig,std(rel_diff(ind))];
-
-end
-
-ind=(abs(rel_diff)<100 & (rms1<0.003 & rms2<0.003));
-disp([mean(rel_diff(ind)), std(rel_diff(ind))])
-
-plot(eas,mm,'kx-'), hold on
-plot(eas,mm+sig,'kx--')
-plot(eas,mm-sig,'kx--')
-grid on
-xlabel('Elevation angle')
-ylabel('Relative difference (%)')
-legend('mean','std','location','northwest')
-% plot(fd(ind),rel_diff(ind),'kx')
+% [fd,inda,indb]=intersect(data.Fractionalday,new.Fractionalday);
+% 
+% comp1=data.NO2_VisSlColno2(inda);
+% comp2=new.NO2_VisSlColno2(indb);
+% 
+% rms1=data.NO2_VisRMS(inda);
+% rms2=new.NO2_VisRMS(indb);
+% elevs=data.Elevviewingangle(inda);
+% 
+% rel_diff=((comp2./comp1)-1)*100;
+% 
+% mm=[];
+% sig=[];
+% eas=[1,2,3,5,8,10,15,20,30,40,50];
+% for i=eas
+%    
+%     ind=(abs(rel_diff)<100 & (rms1<0.003 & rms2<0.003) & elevs==i);
+%     mm=[mm,mean(rel_diff(ind))]; 
+%     sig=[sig,std(rel_diff(ind))];
+% 
+% end
+% 
+% ind=(abs(rel_diff)<100 & (rms1<0.003 & rms2<0.003));
+% disp([mean(rel_diff(ind)), std(rel_diff(ind))])
+% 
+% plot(eas,mm,'kx-'), hold on
+% plot(eas,mm+sig,'kx--')
+% plot(eas,mm-sig,'kx--')
+% grid on
+% xlabel('Elevation angle')
+% ylabel('Relative difference (%)')
+% legend('mean','std','location','northwest')
+% % plot(fd(ind),rel_diff(ind),'kx')
 
 %% BEE stats
 % % load('/home/kristof/work/BEEs/BEE_dataset_all.mat')
