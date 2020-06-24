@@ -1,3 +1,19 @@
+%% total avks
+% aod=prctile(info_aer.col,0:10:100);
+% for i=1:length(aod)-1
+% 
+%     ind=(info_aer.col>=aod(i) & info_aer.col < aod(i+1));
+% 
+%     plot(mean(avk_col(:,ind),2),alt), hold on
+%     
+% end    
+plot(mean(avk_col,2), alt), hold on
+tmp=max(mean(avk_col,2));
+e=2.718281828459046;
+plot([tmp/e,tmp/e],[0,4],'k-')
+grid on
+grid minor
+
 %% compare Ramina's QDOAS output to mine
 % ind1=(data.O3RMS<0.003 & data.SZA<92 & data.SZA>86);
 % ind2=(data_mine.O3RMS<0.003 & data_mine.SZA<92 & data_mine.SZA>86);
