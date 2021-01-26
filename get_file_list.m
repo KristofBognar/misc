@@ -1,4 +1,4 @@
-function [ flist ] = get_file_list( data_dir, ext )
+function [ flist ] = get_file_list( data_dir, ext, search_str )
 %GET_FILE_LIST read list of files in directory
 % INPUT:
 %       data_dir: directory to list; current directory will not change
@@ -17,8 +17,12 @@ if nargin==0
     data_dir=pwd();     % use current directory
     ext='*';            % read all files
     changedir=false;    % don't try changing directories
+    search_str='*';
 elseif nargin==1
     ext='*';
+    search_str='*';
+elseif nargin==2
+    search_str='*';
 end
 
 
@@ -31,8 +35,11 @@ if changedir
 end
 
 % list files
-tmp=dir(['*.' ext]);
+tmp=dir([search_str '.' ext]);
 flist={tmp.name};
+
+% check if any files exist
+if isempty(flist), return, end
 
 % remove . and .. if extension is not specified
 if strcmp(flist(1),'.')
